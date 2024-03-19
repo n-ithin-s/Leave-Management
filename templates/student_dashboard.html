@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+</head>
+<body>
+
+<h1>Welcome, {{ student.user.username }}!</h1>
+ 
+<!-- Display student information -->
+<h2>Your Profile</h2>
+<p>Department: {{ student.department }}</p>
+<!-- Add other profile information as needed -->
+
+<!-- Leave Request Form -->
+<h2>Leave Request</h2>
+<form method="post" action="{% url 'student_dashboard' %}">
+    {% csrf_token %}
+    {{ leave_request_form.as_p }}
+    <button type="submit">Submit Leave Request</button>
+</form>
+
+<!-- Display Leave Requests -->
+<h2>Your Leave Requests</h2>
+{% if leave_requests %}
+    <ul>
+        {% for leave_request in leave_requests %}
+            <li>
+                <strong>Status:</strong> {{ leave_request.status }}<br>
+                <strong>Description:</strong> {{ leave_request.description }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No leave requests submitted yet.</p>
+{% endif %}
+
+<!-- Add Logout Button -->
+<a href="{% url 'logout' %}">Logout</a>
+
+</body>
+</html>
